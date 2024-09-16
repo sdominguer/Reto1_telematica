@@ -13,13 +13,26 @@ class TrackerService(tracker_pb2_grpc.TrackerServiceServicer):
     def __init__(self):
         self.peers = {}
     
+    # Registrar un peer en la red
     def RegisterPeer(self, request, context):
         self.peers[request.peer_id] = request.files
+        print(f"Peer {request.peer_id} registrado con los archivos: {request.files}")
         return tracker_pb2.RegisterPeerResponse(success=True)
     
+    # Buscar un archivo en la red
     def SearchFile(self, request, context):
         peers_with_file = [peer_id for peer_id, files in self.peers.items() if request.file_name in files]
         return tracker_pb2.SearchFileResponse(peers=peers_with_file)
+    
+    # Eliminar un peer de la red (funcionalidad leave)
+    def LeavePeer(self, request, context):
+        peer_id = request.peer_id
+        if peer_id in self.peers:
+            del self.peers[peer_id]
+            print(f"Peer {peer_id} ha dejado la red.")
+            return tracker_pb2.LeavePeerResponse(success=True)
+        else:
+            return tracker_pb2.LeavePeerResponse(success=False)
 
 def serve():
     # Agregando el interceptor al servidor gRPC

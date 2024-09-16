@@ -44,6 +44,11 @@ class TrackerServiceStub(object):
                 request_serializer=tracker__pb2.SearchFileRequest.SerializeToString,
                 response_deserializer=tracker__pb2.SearchFileResponse.FromString,
                 _registered_method=True)
+        self.LeavePeer = channel.unary_unary(
+                '/TrackerService/LeavePeer',
+                request_serializer=tracker__pb2.LeavePeerRequest.SerializeToString,
+                response_deserializer=tracker__pb2.LeavePeerResponse.FromString,
+                _registered_method=True)
 
 
 class TrackerServiceServicer(object):
@@ -61,6 +66,12 @@ class TrackerServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def LeavePeer(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TrackerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -73,6 +84,11 @@ def add_TrackerServiceServicer_to_server(servicer, server):
                     servicer.SearchFile,
                     request_deserializer=tracker__pb2.SearchFileRequest.FromString,
                     response_serializer=tracker__pb2.SearchFileResponse.SerializeToString,
+            ),
+            'LeavePeer': grpc.unary_unary_rpc_method_handler(
+                    servicer.LeavePeer,
+                    request_deserializer=tracker__pb2.LeavePeerRequest.FromString,
+                    response_serializer=tracker__pb2.LeavePeerResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -129,6 +145,33 @@ class TrackerService(object):
             '/TrackerService/SearchFile',
             tracker__pb2.SearchFileRequest.SerializeToString,
             tracker__pb2.SearchFileResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def LeavePeer(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/TrackerService/LeavePeer',
+            tracker__pb2.LeavePeerRequest.SerializeToString,
+            tracker__pb2.LeavePeerResponse.FromString,
             options,
             channel_credentials,
             insecure,

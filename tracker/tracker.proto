@@ -1,23 +1,32 @@
 syntax = "proto3";
 
 service TrackerService {
-  rpc RegisterPeer (RegisterPeerRequest) returns (RegisterPeerResponse);
-  rpc SearchFile (SearchFileRequest) returns (SearchFileResponse);
+    rpc RegisterPeer (RegisterPeerRequest) returns (RegisterPeerResponse);
+    rpc SearchFile (SearchFileRequest) returns (SearchFileResponse);
+    rpc LeavePeer (LeavePeerRequest) returns (LeavePeerResponse);
 }
 
 message RegisterPeerRequest {
-  string peer_id = 1;
-  repeated string files = 2;  // Lista de archivos que el peer tiene
+    string peer_id = 1;
+    repeated string files = 2;
 }
 
 message RegisterPeerResponse {
-  bool success = 1;
+    bool success = 1;
 }
 
 message SearchFileRequest {
-  string file_name = 1;
+    string file_name = 1;
 }
 
 message SearchFileResponse {
-  repeated string peers = 1;  // Lista de peers que tienen el archivo
+    repeated string peers = 1;
+}
+
+message LeavePeerRequest {
+    string peer_id = 1;
+}
+
+message LeavePeerResponse {
+    bool success = 1;
 }

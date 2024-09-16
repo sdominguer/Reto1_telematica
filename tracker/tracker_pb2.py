@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rtracker.proto\"5\n\x13RegisterPeerRequest\x12\x0f\n\x07peer_id\x18\x01 \x01(\t\x12\r\n\x05\x66iles\x18\x02 \x03(\t\"\'\n\x14RegisterPeerResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"&\n\x11SearchFileRequest\x12\x11\n\tfile_name\x18\x01 \x01(\t\"#\n\x12SearchFileResponse\x12\r\n\x05peers\x18\x01 \x03(\t2\x84\x01\n\x0eTrackerService\x12;\n\x0cRegisterPeer\x12\x14.RegisterPeerRequest\x1a\x15.RegisterPeerResponse\x12\x35\n\nSearchFile\x12\x12.SearchFileRequest\x1a\x13.SearchFileResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rtracker.proto\"5\n\x13RegisterPeerRequest\x12\x0f\n\x07peer_id\x18\x01 \x01(\t\x12\r\n\x05\x66iles\x18\x02 \x03(\t\"\'\n\x14RegisterPeerResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"&\n\x11SearchFileRequest\x12\x11\n\tfile_name\x18\x01 \x01(\t\"#\n\x12SearchFileResponse\x12\r\n\x05peers\x18\x01 \x03(\t\"#\n\x10LeavePeerRequest\x12\x0f\n\x07peer_id\x18\x01 \x01(\t\"$\n\x11LeavePeerResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xb8\x01\n\x0eTrackerService\x12;\n\x0cRegisterPeer\x12\x14.RegisterPeerRequest\x1a\x15.RegisterPeerResponse\x12\x35\n\nSearchFile\x12\x12.SearchFileRequest\x1a\x13.SearchFileResponse\x12\x32\n\tLeavePeer\x12\x11.LeavePeerRequest\x1a\x12.LeavePeerResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,6 +39,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_SEARCHFILEREQUEST']._serialized_end=151
   _globals['_SEARCHFILERESPONSE']._serialized_start=153
   _globals['_SEARCHFILERESPONSE']._serialized_end=188
-  _globals['_TRACKERSERVICE']._serialized_start=191
-  _globals['_TRACKERSERVICE']._serialized_end=323
+  _globals['_LEAVEPEERREQUEST']._serialized_start=190
+  _globals['_LEAVEPEERREQUEST']._serialized_end=225
+  _globals['_LEAVEPEERRESPONSE']._serialized_start=227
+  _globals['_LEAVEPEERRESPONSE']._serialized_end=263
+  _globals['_TRACKERSERVICE']._serialized_start=266
+  _globals['_TRACKERSERVICE']._serialized_end=450
 # @@protoc_insertion_point(module_scope)
