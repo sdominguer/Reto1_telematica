@@ -1,76 +1,116 @@
-# Reto 1 Telemática
+# STxxxx <nombre>
+#
+# Estudiante(s): <tu nombre>, <tu email>@eafit
+#
+# Profesor: <nombre del profesor>, <email del profesor>@eafit
+#
+# EL OBJETIVO DE ESTA DOCUMENTACIÓN ES QUE CUALQUIER LECTOR CON EL REPO, EN ESPECIAL EL PROFESOR, ENTIENDA EL ALCANCE DE LO DESARROLLADO Y QUE PUEDA REPRODUCIR SIN EL ESTUDIANTE EL AMBIENTE DE DESARROLLO Y EJECUTAR Y USAR LA APLICACIÓN SIN PROBLEMAS
+#
+# renombre este archivo a README.md cuando lo vaya a usar en un caso específico
+
+# Proyecto de Intercambio de Archivos P2P
+
+## 1. Breve descripción de la actividad
 
 Este proyecto implementa un sistema de intercambio de archivos basado en la arquitectura Peer-to-Peer (P2P) utilizando HTTP y gRPC. Cada peer puede actuar tanto como cliente para solicitar archivos, como servidor para compartir sus propios archivos. Los peers se registran en un tracker, el cual mantiene un registro de las direcciones IP y los archivos disponibles en la red.
 
-## Características
+## 1.1. Aspectos cumplidos de la actividad propuesta
 
-- **Registro de Peers:** Cada peer se registra en un tracker centralizado con los archivos que tiene disponibles.
-- **Búsqueda de Archivos:** Los peers pueden buscar archivos en otros peers mediante el tracker.
-- **Transferencia de Archivos:** Los peers descargan archivos entre sí utilizando HTTP.
-- **Desconexión de Peers:** Los peers pueden salir de la red, y el tracker elimina su información.
+- Implementación de la comunicación P2P utilizando HTTP y gRPC.
+- Registro de peers y archivos en un tracker.
+- Habilidad para compartir y solicitar archivos entre peers.
 
-El sistema utiliza **gRPC** para la comunicación entre el tracker y los peers, y **HTTP** para la transferencia directa de archivos entre peers.
+## 1.2. Aspectos NO cumplidos de la actividad propuesta
 
-## Requisitos
+- No se incluye un sistema de autenticación para los peers.
+- No se ha implementado un sistema de encriptación para la transferencia de archivos.
 
-### Lenguaje de Programación
-- Python 3.6 o superior
+## 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
 
-### Bibliotecas adicionales:
-- `flask`: Para implementar el servidor HTTP en los peers.
-- `requests`: Para realizar solicitudes HTTP entre peers.
-- `grpcio`: Para implementar la comunicación gRPC entre el tracker y los peers.
-- `protobuf`: Para la serialización de mensajes gRPC.
+- **Arquitectura**: Basada en el modelo Peer-to-Peer (P2P) con un servidor tracker para mantener el registro de archivos.
+- **Patrones**: Uso de gRPC para la comunicación entre peers y el tracker. HTTP para compartir archivos.
+- **Mejores prácticas**: Modularización del código en archivos separados para el tracker y los peers. Registro de actividad para depuración.
 
-Para instalar todas las dependencias necesarias, ejecuta el siguiente comando:
+## 3. Descripción del ambiente de desarrollo y técnico
 
-    pip install flask requests grpcio protobuf
+- **Lenguaje de Programación**: Python 3.8 o superior
+- **Bibliotecas**:
+  - Flask 2.0.1
+  - Requests 2.26.0
+  - grpcio 1.43.0
+  - protobuf 3.19.4
 
-## Estructura del Proyecto
+### Cómo se compila y ejecuta
 
-- **tracker.py:** Implementa el servidor tracker que mantiene el registro de los peers y los archivos disponibles en la red.
-- **peer.py:** Implementa un peer que puede registrarse en el tracker, buscar archivos y compartir archivos con otros peers.
+1. **Compila el archivo `.proto`**:
+   - Ejecuta `protoc --python_out=. --grpc_python_out=. tracker.proto` en la carpeta del proyecto para generar `tracker_pb2.py` y `tracker_pb2_grpc.py`.
 
-## Configuración en AWS
+2. **Ejecuta el Tracker**:
+   - Navega a la carpeta del tracker y ejecuta:
+     ```bash
+     python tracker.py
+     ```
 
-Para ejecutar este sistema en AWS, debes seguir estos pasos adicionales:
+3. **Ejecuta los Peers**:
+   - En diferentes terminales, ejecuta:
+     ```bash
+     python peer.py <PEER_ID> <PUERTO_HTTP> <DIRECTORIO_ARCHIVOS>
+     ```
+   - Ejemplo:
+     ```bash
+     python peer.py peer_1 5000 ./peer1_files
+     ```
 
-### Configuración de Instancias
+### Detalles del desarrollo
 
-1. **Tracker:** Configura una instancia en AWS EC2 para ejecutar el archivo `tracker.py`. Esta instancia será el tracker central donde los peers se registrarán.
+- El archivo `tracker.py` maneja la lógica del tracker y las solicitudes de los peers.
+- El archivo `peer.py` implementa la lógica de cada peer, incluyendo el registro y la búsqueda de archivos.
 
-2. **Peers:** Para cada peer, configura una instancia de EC2 que ejecute el archivo `peer.py`. Cada peer debe especificar su ID, el puerto HTTP y la carpeta donde almacenará sus archivos.
+### Detalles técnicos
 
-### Puertos de Acceso para Peers
+- **IP y puertos**:
+  - Tracker escucha en el puerto 50051.
+  - Peers utilizan los puertos 5000, 5001, 5002 para HTTP.
 
-Los peers utilizan los siguientes puertos para la transferencia de archivos a través de HTTP:
+## 4. Descripción del ambiente de EJECUCIÓN (en producción)
 
-- Puerto **5000**: Para el primer peer.
-- Puerto **5001**: Para el segundo peer.
-- Puerto **5002**: Para el tercer peer.
+- **Lenguaje de Programación**: Python 3.8 o superior
+- **Bibliotecas**:
+  - Flask 2.0.1
+  - Requests 2.26.0
+  - grpcio 1.43.0
+  - protobuf 3.19.4
 
-Debes asegurarte de que estos puertos estén abiertos en la configuración de seguridad de las instancias de EC2 para que los peers puedan comunicarse entre sí. Para esto:
+### IP o nombres de dominio en nube o en la máquina servidor
 
-1. Ve a la consola de **EC2** en AWS.
-2. En la sección de **Grupos de seguridad**, abre los puertos **5000-5002** en las reglas de entrada para permitir conexiones desde otros peers.
+- **Tracker**: `<IP_DEL_TRACKER>`
+- **Peers**: `<IP_DE_LAS_INSTANCIAS_PEER>`
 
-### Ejecución en AWS
+### Cómo se configura el proyecto
 
-Para ejecutar el sistema en AWS:
+- **IP y Puertos**:
+  - Asegúrate de abrir los puertos 5000, 5001, 5002 en el grupo de seguridad de la instancia EC2.
+  - Configura la IP del tracker en los archivos `peer.py` y asegúrate de que los peers apunten al tracker correcto.
 
-1. Sube los archivos `tracker.py`, `peer.py` y el archivo `.proto` correspondiente a las instancias.
-2. En la instancia del **tracker**, ejecuta el archivo `tracker.py`:
+### Cómo se lanza el servidor
 
-        python tracker.py
+1. **Inicia el tracker**:
+   ```bash
+   python tracker.py
+2. **Inicia los peers:**
+   ```bash
+   python peer.py <PEER_ID> <PUERTO_HTTP> <DIRECTORIO_ARCHIVOS>
 
-3. En las instancias de los **peers**, ejecuta el archivo `peer.py` con los argumentos correspondientes para el ID del peer, el puerto HTTP y la carpeta de archivos:
+### Mini guía de uso
+- Inicia el tracker.
+- Inicia uno o más peers.
+- Utiliza el menú en el peer para ver archivos disponibles, solicitar archivos o salir de la red.
+  
+## 5. Otra información relevante
+Dependencias: Verifica que todas las dependencias estén instaladas correctamente usando pip install.
+Referencias
+Documentación de Flask
+Documentación de Requests
+Documentación de gRPC
+Documentación de Protobuf
 
-        python peer.py peer_1 5000 ./files
-        python peer.py peer_2 5001 ./files
-        python peer.py peer_3 5002 ./files
-
-### Ejemplo de Uso
-
-- Los peers pueden subir archivos mediante el endpoint `/upload`.
-- Para buscar un archivo en la red, ingresa el nombre del archivo y el tracker devolverá la lista de peers que lo poseen.
-- Una vez que se encuentra el archivo, el peer puede descargarlo desde otro peer utilizando HTTP.
