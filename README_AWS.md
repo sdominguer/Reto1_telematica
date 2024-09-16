@@ -1,12 +1,8 @@
-# STxxxx <nombre>
+# ST0263 <Tópicos Especiales en Telemática>
 #
-# Estudiante(s): <tu nombre>, <tu email>@eafit
+# Estudiante(s): Sara Isabel Ortiz, siortizh@eafit.edu.co & Sara Dominguez>, sdominguer@eafit.edu.co
 #
-# Profesor: <nombre del profesor>, <email del profesor>@eafit
-#
-# EL OBJETIVO DE ESTA DOCUMENTACIÓN ES QUE CUALQUIER LECTOR CON EL REPO, EN ESPECIAL EL PROFESOR, ENTIENDA EL ALCANCE DE LO DESARROLLADO Y QUE PUEDA REPRODUCIR SIN EL ESTUDIANTE EL AMBIENTE DE DESARROLLO Y EJECUTAR Y USAR LA APLICACIÓN SIN PROBLEMAS
-#
-# renombre este archivo a README.md cuando lo vaya a usar en un caso específico
+# Profesor: Juan Carlos Montoya, jcmonoy@eafit.edu.co
 
 # Proyecto de Intercambio de Archivos P2P
 
