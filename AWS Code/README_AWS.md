@@ -89,6 +89,10 @@ Este proyecto implementa un sistema de intercambio de archivos basado en la arqu
      docker run -d -p 5001:5001 peer-app
      docker run -d -p 5002:5002 peer-app
      ```
+   - Ver contenedores en ejecución:
+      ```bash
+     docker ps
+     ```
 
 5. **Ejecuta el Tracker**:
    - En la instancia del tracker ejecutar:
