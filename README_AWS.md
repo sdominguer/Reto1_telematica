@@ -1,8 +1,8 @@
-# ST0263 <Tópicos Especiales en Telemática>
-#
-# Estudiante(s): Sara Isabel Ortiz, siortizh@eafit.edu.co & Sara Dominguez>, sdominguer@eafit.edu.co
-#
-# Profesor: Juan Carlos Montoya, jcmonoy@eafit.edu.co
+**ST0263 Tópicos Especiales en Telemática**
+
+**Estudiante(s):** Sara Isabel Ortiz, siortizh@eafit.edu.co & Sara Dominguez, sdominguer@eafit.edu.co
+
+**Profesor:** Juan Carlos Montoya, jcmonoy@eafit.edu.co
 
 # Proyecto de Intercambio de Archivos P2P
 
