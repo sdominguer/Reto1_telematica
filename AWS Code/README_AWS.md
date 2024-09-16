@@ -70,7 +70,7 @@ Este proyecto implementa un sistema de intercambio de archivos basado en la arqu
      sudo usermod -aG docker ${USER}
      ```
 
-4. **Uso de Docker para las instancias**:
+3. **Uso de Docker para las instancias**:
    Crear el Dockerfile en ambas instancias.
    - tracker:
      ```bash
@@ -94,13 +94,13 @@ Este proyecto implementa un sistema de intercambio de archivos basado en la arqu
      docker ps
      ```
 
-5. **Ejecuta el Tracker**:
+4. **Ejecuta el Tracker**:
    - En la instancia del tracker ejecutar:
      ```bash
      python tracker.py
      ```
 
-6. **Ejecuta los Peers**:
+5. **Ejecuta los Peers**:
    - En diferentes terminales, ejecuta para cada peer:
      ```bash
      python peer.py <PEER_ID> <PUERTO_HTTP> <DIRECTORIO_ARCHIVOS>
