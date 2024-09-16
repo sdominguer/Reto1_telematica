@@ -66,14 +66,20 @@ def search_file_in_tracker(file_name):
 # Descargar archivo de otro peer (HTTP)
 def download_file_from_peer(peer_ip, file_name):
     url = f"http://{peer_ip}:5000/files/{file_name}"
-    print(f"Descargando archivo desde {url}...")
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(file_name, 'wb') as f:
-            f.write(response.content)
-        print(f"Archivo '{file_name}' descargado con éxito desde {peer_ip}.")
-    else:
-        print(f"Error al descargar el archivo desde {peer_ip}: {response.status_code}")
+    print(f"Intentando conectar al peer en {peer_ip} para descargar el archivo '{file_name}'...")
+    
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            print(f"Conexión establecida con el peer {peer_ip}.")
+            with open(file_name, 'wb') as f:
+                f.write(response.content)
+            print(f"Conexión exitosa. Archivo '{file_name}' descargado con éxito desde {peer_ip}.")
+        else:
+            print(f"Error al descargar el archivo desde {peer_ip}: Estado HTTP {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Fallo al conectar con el peer {peer_ip}: {e}")
+
 
 # Subir archivo directamente desde consola local  usando requests (POST)
 def upload_file_to_peer():
@@ -94,7 +100,10 @@ def upload_file_to_peer():
 # Servidor HTTP para compartir archivos
 @app.route('/files/<filename>', methods=['GET'])
 def share_file(filename):
+    peer_requesting = request.remote_addr  # Obtener la IP del peer solicitante
+    print(f"Conexión establecida con el peer {peer_requesting}. Solicitud de archivo '{filename}'.")
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 # Subir archivos al peer
 @app.route('/upload', methods=['POST'])
