@@ -63,15 +63,20 @@ def search_file_in_tracker(file_name):
 
 # Descargar archivo de otro peer (HTTP)
 def download_file_from_peer(peer_ip, file_name):
-    url = f"http://{peer_ip}:5000/files/{file_name}"
-    print(f"Descargando archivo desde {url}...")
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(file_name, 'wb') as f:
-            f.write(response.content)
-        print(f"Archivo '{file_name}' descargado con éxito desde {peer_ip}.")
-    else:
-        print(f"Error al descargar el archivo desde {peer_ip}: {response.status_code}")
+    url = f"http://localhost:5000/files/{file_name}"
+
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            print(f"Conexión establecida con el peer {peer_ip}.")
+            file_path = os.path.join(UPLOAD_FOLDER, file_name)
+            with open(file_path, 'wb') as f:
+                f.write(response.content)
+            print(f"Conexión exitosa. Archivo '{file_name}' descargado con éxito desde {peer_ip}.")
+        else:
+            print(f"Error al descargar el archivo desde {peer_ip}: Estado HTTP {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Fallo al conectar con el peer {peer_ip}: {e}")
 
 # Subir archivo directamente desde el menú usando requests (POST)
 def upload_file_to_peer():
