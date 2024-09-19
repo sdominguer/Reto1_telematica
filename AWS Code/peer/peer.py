@@ -65,6 +65,7 @@ def search_file_in_tracker(file_name):
             return None
 
 # Descargar archivo de otro peer (HTTP)
+@app.route('/files/<filename>', methods=['GET'])
 def download_file_from_peer(peer_ip, file_name):
     url = f"http://172.31.65.144:5000/files/{file_name}"
     print(f"Intentando conectar al peer en {peer_ip} para descargar el archivo '{file_name}'...")
@@ -98,23 +99,6 @@ def upload_file_to_peer():
     
     print(f"Archivo '{file_name}' subido correctamente al peer.")
 
-
-# Servidor HTTP para compartir archivos
-@app.route('/files/<filename>', methods=['GET'])
-def share_file(filename):
-    peer_requesting = request.remote_addr  # Obtener la IP del peer solicitante
-    print(f"Conexión establecida con el peer {peer_requesting}. Solicitud de archivo '{filename}'.")
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
-
-# Subir archivos al peer
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if 'file' not in request.files:
-        return "No se encontró archivo", 400
-    file = request.files['file']
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-    return "Archivo subido correctamente", 200
 
 # Registrar archivos al iniciar el peer
 def start_peer():
